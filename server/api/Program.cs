@@ -1,5 +1,6 @@
 using System.Text.Json;
 using api;
+using api.Services;
 using efscaffold.Entities;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.AspNetCore.Mvc;
@@ -12,13 +13,22 @@ var appOptions = builder.Services.AddAppOptions(builder.Configuration);
 
 Console.WriteLine("the app options are: " + JsonSerializer.Serialize(appOptions));
 
+builder.Services.AddScoped<ITodoService, TodoService>();
+
 builder.Services.AddDbContext<MyDbContext>(conf =>
 {
     conf.UseNpgsql(appOptions.DbConnectionString);
 
+    builder.Services.AddControllers();
+    builder.Services.AddOpenApiDocument();
+    builder.Services.AddProblemDetails();
+    builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+    
     builder.Services.AddCors();
     
     var app = builder.Build();
+    
+    app.UseExceptionHandler();
     
     app.UseCors(config => config
         .AllowAnyHeader()
@@ -26,26 +36,12 @@ builder.Services.AddDbContext<MyDbContext>(conf =>
         .AllowAnyOrigin()
         .SetIsOriginAllowed (x => true));
     
+    app.MapControllers();
     
-    app.MapGet("/", (
-        [FromServices] IOptionsMonitor<AppOptions> appOptions,
-        [FromServices] MyDbContext dbContext) =>
-    {
-        var myTodo = new Todo()
-        {
-            Description = "test",
-            Title = "test title",
-            Id = Guid.NewGuid().ToString(),
-            Isdone = false,
-            Priority = 5
-        };
-
-        dbContext.Todos.Add(myTodo);
-        dbContext.SaveChanges();
-        var objects = dbContext.Todos.ToList();
-        return objects;
-    });
-
+    app.UseOpenApi();
+    app.UseSwaggerUi();
+    
+    
     app.Run();
 });
 
