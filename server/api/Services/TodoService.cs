@@ -30,7 +30,7 @@ public class TodoService(MyDbContext dbContext) : ITodoService
 
     public async Task<Todo> ToggleTodo(Todo todo)
     {
-        var currentObject = dbContext.Todos.FirsteOrDefault(todo => todo.Id == todo.Id) ??
+        var currentObject = dbContext.Todos.FirstOrDefault(todo => todo.Id == todo.Id) ??
                             throw new ValidationException("Could not ne found");
         currentObject.Isdone = !currentObject.Isdone;
         dbContext.Todos.Update(currentObject);
