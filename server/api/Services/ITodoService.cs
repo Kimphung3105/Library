@@ -12,4 +12,5 @@ public interface ITodoService
     }
 
     Task<List<Todo>> GetAllTodos();
+    Task<Todo> ToggleTodo(Todo todo);
 }

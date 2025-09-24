@@ -40,6 +40,7 @@ builder.Services.AddDbContext<MyDbContext>(conf =>
     
     app.UseOpenApi();
     app.UseSwaggerUi();
+    app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
     
     
     app.Run();
