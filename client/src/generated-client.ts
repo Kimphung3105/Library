@@ -286,8 +286,8 @@ function throwException(message: string, status: number, response: string, heade
         throw new ApiException(message, status, response, headers, null);
 }
 
-export class CreateTodoDto {
+export class CreateLibraryDto {
 }
 
-export class Todo {
+export class Library{
 }

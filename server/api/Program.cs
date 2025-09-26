@@ -1,11 +1,8 @@
 using System.Text.Json;
 using api;
 using api.Services;
-using efscaffold.Entities;
 using Infrastructure.Postgres.Scaffolding;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,13 +10,13 @@ var appOptions = builder.Services.AddAppOptions(builder.Configuration);
 
 Console.WriteLine("the app options are: " + JsonSerializer.Serialize(appOptions));
 
-builder.Services.AddScoped<ITodoService, TodoService>();
+builder.Services.AddScoped<ILibraryService, LibraryService>();
 
 builder.Services.AddDbContext<MyDbContext>(conf =>
 {
     conf.UseNpgsql(appOptions.DbConnectionString);
-
-    builder.Services.AddControllers();
+});
+builder.Services.AddControllers();
     builder.Services.AddOpenApiDocument();
     builder.Services.AddProblemDetails();
     builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
@@ -40,9 +37,9 @@ builder.Services.AddDbContext<MyDbContext>(conf =>
     
     app.UseOpenApi();
     app.UseSwaggerUi();
-    app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
+    await app.GenerateApiClientsFromOpenApi("/../../client/src/generated-ts-client.ts");
     
     
     app.Run();
-});
+
 

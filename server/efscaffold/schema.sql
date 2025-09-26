@@ -1,9 +1,32 @@
-﻿drop schema if exists todosystem cascade;
-create schema if not exists todosystem;
+﻿drop schema if exists library cascade;
+create schema if not exists library;
 
-create table todosystem.todo(
-                                id text not null primary key,
-                                title text not null,
-                                description text not null,
-                                priority numeric not null,
-                                isdone boolean not null);
+create table library.author
+(
+    id        text primary key not null,
+    name      text             not null,
+    createdAt timestamp with time zone
+);
+
+create table library.genre
+(
+    id        text primary key not null,
+    name      text             not null,
+    createdAt timestamp with time zone
+);
+
+create table library.book
+(
+    id        text primary key not null,
+    title     text             not null,
+    pages     int              not null,
+    createdAt timestamp with time zone,
+    genreId   text             references library.genre (id) on delete set null
+);
+
+create table library.authorbookjunction
+(
+    authorId text references library.author (id) on delete cascade,
+    bookId   text references library.book (id) on delete cascade,
+    primary key (authorId, bookId)
+);

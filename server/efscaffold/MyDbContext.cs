@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using efscaffold.Entities;
 
 namespace Infrastructure.Postgres.Scaffolding;
@@ -11,12 +9,12 @@ public partial class MyDbContext : DbContext
         : base(options)
     {
     }
-
-    public virtual DbSet<Todo> Todos { get; set; }
+    
+    public DbSet<Library> Libraries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Todo>(entity =>
+        modelBuilder.Entity<Library>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("todo_pkey");
 

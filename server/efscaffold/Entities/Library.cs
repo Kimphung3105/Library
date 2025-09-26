@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace efscaffold.Entities;
 
-public partial class Todo
+public partial class Library
 {
     public string Id { get; set; } = null!;
 
