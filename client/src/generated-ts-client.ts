@@ -4,9 +4,10 @@
 // </auto-generated>
 //----------------------
 
+/* eslint-disable */
+// ReSharper disable InconsistentNaming
 
-
-export class TodoClient {
+export class LibraryClient {
     private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -16,8 +17,8 @@ export class TodoClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getAllTodos(): Promise<Todo[]> {
-        let url_ = this.baseUrl + "/GetAllTodos";
+    getAllLibraries(): Promise<Library[]> {
+        let url_ = this.baseUrl + "/GetAllLibraries";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -28,17 +29,17 @@ export class TodoClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetAllTodos(_response);
+            return this.processGetAllLibraries(_response);
         });
     }
 
-    protected processGetAllTodos(response: Response): Promise<Todo[]> {
+    protected processGetAllLibraries(response: Response): Promise<Library[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Todo[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -46,11 +47,11 @@ export class TodoClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Todo[]>(null as any);
+        return Promise.resolve<Library[]>(null as any);
     }
 
-    createTodo(dto: CreateTodoDto): Promise<Todo> {
-        let url_ = this.baseUrl + "/CreateTodo";
+    createLibrary(dto: CreateLibraryDto): Promise<Library> {
+        let url_ = this.baseUrl + "/CreateLibrary";
         url_ = url_.replace(/[?&]$/, "");
 
         const content_ = JSON.stringify(dto);
@@ -65,17 +66,17 @@ export class TodoClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processCreateTodo(_response);
+            return this.processCreateLibrary(_response);
         });
     }
 
-    protected processCreateTodo(response: Response): Promise<Todo> {
+    protected processCreateLibrary(response: Response): Promise<Library> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Todo;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -83,10 +84,10 @@ export class TodoClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Todo>(null as any);
+        return Promise.resolve<Library>(null as any);
     }
 
-    toggleDone(t: Todo): Promise<Todo> {
+    toggleDone(t: Library): Promise<Library> {
         let url_ = this.baseUrl + "/ToggleDone";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -106,13 +107,13 @@ export class TodoClient {
         });
     }
 
-    protected processToggleDone(response: Response): Promise<Todo> {
+    protected processToggleDone(response: Response): Promise<Library> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Todo;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library;
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -120,22 +121,23 @@ export class TodoClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Todo>(null as any);
+        return Promise.resolve<Library>(null as any);
     }
 }
 
-export interface Todo {
+export interface Library {
     id?: string;
     title?: string;
     description?: string;
     priority?: number;
-    isdone?: boolean;
 }
 
-export interface CreateTodoDto {
-    priority?: number;
-    title?: string;
+export interface CreateLibraryDto {
     description?: string;
+    title?: string;
+    priority?: number;
+    isDone?: boolean;
+    id?: string;
 }
 
 export class ApiException extends Error {

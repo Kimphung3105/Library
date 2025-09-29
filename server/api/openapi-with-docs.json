@@ -6,12 +6,12 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/GetAllTodos": {
+    "/GetAllLibraries": {
       "get": {
         "tags": [
-          "Todo"
+          "Library"
         ],
-        "operationId": "Todo_GetAllTodos",
+        "operationId": "Library_GetAllLibraries",
         "responses": {
           "200": {
             "description": "",
@@ -20,7 +20,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Todo"
+                    "$ref": "#/components/schemas/Library"
                   }
                 }
               }
@@ -29,18 +29,18 @@
         }
       }
     },
-    "/CreateTodo": {
+    "/CreateLibrary": {
       "post": {
         "tags": [
-          "Todo"
+          "Library"
         ],
-        "operationId": "Todo_CreateTodo",
+        "operationId": "Library_CreateLibrary",
         "requestBody": {
           "x-name": "dto",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTodoDto"
+                "$ref": "#/components/schemas/CreateLibraryDto"
               }
             }
           },
@@ -53,7 +53,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Todo"
+                  "$ref": "#/components/schemas/Library"
                 }
               }
             }
@@ -64,15 +64,15 @@
     "/ToggleDone": {
       "put": {
         "tags": [
-          "Todo"
+          "Library"
         ],
-        "operationId": "Todo_ToggleDone",
+        "operationId": "Library_ToggleDone",
         "requestBody": {
           "x-name": "t",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Todo"
+                "$ref": "#/components/schemas/Library"
               }
             }
           },
@@ -85,7 +85,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Todo"
+                  "$ref": "#/components/schemas/Library"
                 }
               }
             }
@@ -96,7 +96,7 @@
   },
   "components": {
     "schemas": {
-      "Todo": {
+      "Library": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -112,24 +112,27 @@
           "priority": {
             "type": "number",
             "format": "decimal"
-          },
-          "isdone": {
-            "type": "boolean"
           }
         }
       },
-      "CreateTodoDto": {
+      "CreateLibraryDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
-          "priority": {
-            "type": "integer",
-            "format": "int32"
+          "description": {
+            "type": "string"
           },
           "title": {
             "type": "string"
           },
-          "description": {
+          "priority": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "isDone": {
+            "type": "boolean"
+          },
+          "id": {
             "type": "string"
           }
         }

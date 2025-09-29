@@ -2,13 +2,13 @@
 using efscaffold.Entities;
 using Infrastructure.Postgres.Scaffolding;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using api.Dtos;
+using Dataaccess;
 
 namespace api.Services;
 
 public class LibraryService(MyDbContext dbContext) : ILibraryService
 {
+    
     public async Task<ActionResult<Library>> CreateLibrary(CreateLibraryDto dto)
     {
         var myLibrary = new Library
@@ -16,7 +16,6 @@ public class LibraryService(MyDbContext dbContext) : ILibraryService
             Description = dto.Description,
             Title = dto.Title,
             Id = Guid.NewGuid().ToString(),
-            Isdone = false,
             Priority = dto.Priority,
         };
 
@@ -37,8 +36,7 @@ public class LibraryService(MyDbContext dbContext) : ILibraryService
         var currentObject = await dbContext.Libraries
                                 .FirstOrDefaultAsync(l => l.Id == library.Id)
                             ?? throw new ValidationException("Could not be found");
-
-        currentObject.Isdone = !currentObject.Isdone;
+        
         dbContext.Libraries.Update(currentObject);
         await dbContext.SaveChangesAsync();
 
