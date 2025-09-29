@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using efscaffold.Entities;
-using Infrastructure.Postgres.Scaffolding;
-using Microsoft.AspNetCore.Mvc;
 using Dataaccess;
+using efscaffold.Entities;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Dataaccess;
+
 
 namespace api.Services;
 

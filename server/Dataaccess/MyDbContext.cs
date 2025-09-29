@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using efscaffold.Entities;
 
 
 namespace Dataaccess;
@@ -17,6 +18,8 @@ public partial class MyDbContext : DbContext
     public virtual DbSet<Book> Books { get; set; }
    
     public virtual DbSet<Genre> Genres { get; set; }
+	
+	public virtual DbSet<Library> Libraries { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -79,4 +82,5 @@ public partial class MyDbContext : DbContext
 
         OnModelCreatingPartial(modelBuilder);
     }
+	partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
 }

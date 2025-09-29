@@ -1,14 +1,9 @@
-﻿
-namespace efscaffold.Entities;
+﻿namespace efscaffold.Entities;
 
-public partial class Library
+public class Library
 {
-    public string Id { get; set; } = null!;
-
-    public string Title { get; set; } = null!;
-
-    public string Description { get; set; } = null!;
-
-    public decimal Priority { get; set; }
-    
+    public string Id { get; set; }
+    public string Title { get; set; }
+    public string Description { get; set; }
+    public int Priority { get; set; }
 }
