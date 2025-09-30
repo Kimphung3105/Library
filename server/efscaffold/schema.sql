@@ -30,3 +30,11 @@ create table library.authorbookjunction
     bookId   text references library.book (id) on delete cascade,
     primary key (authorId, bookId)
 );
+
+create table library.library
+(
+    id          text primary key not null,
+    title       text not null,
+    description text not null,
+    priority    int not null
+);

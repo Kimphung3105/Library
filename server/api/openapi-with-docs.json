@@ -110,8 +110,8 @@
             "type": "string"
           },
           "priority": {
-            "type": "number",
-            "format": "decimal"
+            "type": "integer",
+            "format": "int32"
           }
         }
       },

@@ -18,7 +18,7 @@ builder.Services.AddScoped<ILibraryService, LibraryService>();
 builder.Services.AddDbContext<MyDbContext>(options =>
     options.UseNpgsql(
         appOptions.DbConnectionString
-        )
+        ).EnableSensitiveDataLogging().LogTo(Console.WriteLine,Microsoft.Extensions.Logging.LogLevel.Information)
 );
 
 builder.Services.AddControllers();
