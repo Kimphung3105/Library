@@ -17,8 +17,8 @@ export class LibraryClient {
         this.baseUrl = baseUrl ?? "";
     }
 
-    getAllLibraries(): Promise<Library[]> {
-        let url_ = this.baseUrl + "/GetAllLibraries";
+    getBooks(): Promise<BookDto[]> {
+        let url_ = this.baseUrl + "/api/Library/GetBooks";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_: RequestInit = {
@@ -29,17 +29,17 @@ export class LibraryClient {
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetAllLibraries(_response);
+            return this.processGetBooks(_response);
         });
     }
 
-    protected processGetAllLibraries(response: Response): Promise<Library[]> {
+    protected processGetBooks(response: Response): Promise<BookDto[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library[];
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as BookDto[];
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -47,97 +47,16 @@ export class LibraryClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<Library[]>(null as any);
-    }
-
-    createLibrary(dto: CreateLibraryDto): Promise<Library> {
-        let url_ = this.baseUrl + "/CreateLibrary";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(dto);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processCreateLibrary(_response);
-        });
-    }
-
-    protected processCreateLibrary(response: Response): Promise<Library> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Library>(null as any);
-    }
-
-    toggleDone(t: Library): Promise<Library> {
-        let url_ = this.baseUrl + "/ToggleDone";
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = JSON.stringify(t);
-
-        let options_: RequestInit = {
-            body: content_,
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processToggleDone(_response);
-        });
-    }
-
-    protected processToggleDone(response: Response): Promise<Library> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Library;
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Library>(null as any);
+        return Promise.resolve<BookDto[]>(null as any);
     }
 }
 
-export interface Library {
+export interface BookDto {
     id?: string;
     title?: string;
-    description?: string;
-    priority?: number;
-}
-
-export interface CreateLibraryDto {
-    description?: string;
-    title?: string;
-    priority?: number;
-    isDone?: boolean;
-    id?: string;
+    pages?: number;
+    genre?: string | undefined;
+    author?: string[] | undefined;
 }
 
 export class ApiException extends Error {

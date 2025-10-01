@@ -6,12 +6,12 @@
     "version": "1.0.0"
   },
   "paths": {
-    "/GetAllLibraries": {
+    "/api/Library/GetBooks": {
       "get": {
         "tags": [
           "Library"
         ],
-        "operationId": "Library_GetAllLibraries",
+        "operationId": "Library_GetBooks",
         "responses": {
           "200": {
             "description": "",
@@ -20,72 +20,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Library"
+                    "$ref": "#/components/schemas/BookDto"
                   }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/CreateLibrary": {
-      "post": {
-        "tags": [
-          "Library"
-        ],
-        "operationId": "Library_CreateLibrary",
-        "requestBody": {
-          "x-name": "dto",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CreateLibraryDto"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Library"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/ToggleDone": {
-      "put": {
-        "tags": [
-          "Library"
-        ],
-        "operationId": "Library_ToggleDone",
-        "requestBody": {
-          "x-name": "t",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Library"
-              }
-            }
-          },
-          "required": true,
-          "x-position": 1
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Library"
                 }
               }
             }
@@ -96,7 +32,7 @@
   },
   "components": {
     "schemas": {
-      "Library": {
+      "BookDto": {
         "type": "object",
         "additionalProperties": false,
         "properties": {
@@ -106,34 +42,20 @@
           "title": {
             "type": "string"
           },
-          "description": {
-            "type": "string"
-          },
-          "priority": {
-            "type": "integer",
-            "format": "int32"
-          }
-        }
-      },
-      "CreateLibraryDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "description": {
-            "type": "string"
-          },
-          "title": {
-            "type": "string"
-          },
-          "priority": {
+          "pages": {
             "type": "integer",
             "format": "int32"
           },
-          "isDone": {
-            "type": "boolean"
+          "genre": {
+            "type": "string",
+            "nullable": true
           },
-          "id": {
-            "type": "string"
+          "author": {
+            "type": "array",
+            "nullable": true,
+            "items": {
+              "type": "string"
+            }
           }
         }
       }

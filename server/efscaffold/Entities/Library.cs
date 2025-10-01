@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using Dataaccess;
 
 namespace efscaffold.Entities;
-
 
 [Table("library", Schema = "library")]
 public class Library
@@ -17,4 +17,6 @@ public class Library
     
     [Column("priority")]
     public int Priority { get; set; }
+
+    public ICollection<Book> Books { get; set; } = new List<Book>();
 }

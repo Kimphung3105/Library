@@ -1,21 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dataaccess;
-
-public partial class Book
+﻿public class Book
 {
-    public string Id { get; set; } = null!;
-
-    public string Title { get; set; } = null!;
-
+    public string Id { get; set; }
+    public string Title { get; set; }
     public int Pages { get; set; }
-
-    public DateTime Createdat { get; set; }
-
+    public DateTime? CreatedAt { get; set; }
     public string? Genreid { get; set; }
 
-    public virtual Genre? Genre { get; set; }
-
-    public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
+    Genre = b.Genre != null ? b.Genre.Name : null,
+    Authors = b.Authors != null ? b.Authors.Select(a => a.Name).ToList() : new List<string>()
 }

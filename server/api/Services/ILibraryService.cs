@@ -1,17 +1,10 @@
 ﻿using api.Dtos;
+using Dataaccess;
 using efscaffold.Entities;
-using Microsoft.AspNetCore.Mvc;
 
-namespace api.Services;
-
-public interface ILibraryService
+public partial interface ILibraryService
 {
-    Task<Library> CreateLibrary(CreateLibraryDto dto)
-    {
-        throw new NotImplementedException();
-    }
-
-    
-    Task<ActionResult<List<Library>>> GetAllLibraries();
-    Task<ActionResult<Library>> ToggleLibrary(Library library);
+    Task<List<Library>> GetAllLibraries();
+    Task<List<BookDto>> GetAllBooks();
+    Task SeedBooks();
 }

@@ -38,3 +38,4 @@ create table library.library
     description text not null,
     priority    int not null
 );
+

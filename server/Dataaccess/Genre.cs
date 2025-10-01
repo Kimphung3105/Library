@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Dataaccess;
-
-public partial class Genre
+﻿public class Genre
 {
-    public string Id { get; set; } = null!;
+    public string Id { get; set; }
+    public string Name { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
-    public string Name { get; set; } = null!;
-
-    public DateTime Createdat { get; set; }
-
-    public virtual ICollection<Book> Books { get; set; } = new List<Book>();
+    public ICollection<Book> Books { get; set; } = new List<Book>();
 }

@@ -1,47 +1,71 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using api.Dtos;
 using Dataaccess;
 using efscaffold.Entities;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Dataaccess;
 
-
-namespace api.Services;
-
-public class LibraryService(MyDbContext dbContext) : ILibraryService
+public class LibraryService : ILibraryService
 {
-    
-    public async Task<ActionResult<Library>> CreateLibrary(CreateLibraryDto dto)
+    private readonly MyDbContext _context;
+
+    public LibraryService(MyDbContext context)
     {
-        var myLibrary = new Library
+        _context = context;
+    }
+
+    public async Task<List<Library>> GetAllLibraries()
+    {
+        return await _context.Libraries.ToListAsync();
+    }
+
+    public async Task<List<BookDto>> GetAllBooks()
+    {
+        var books = await _context.Books
+            .Include(b => b.Genre)
+            .Include(b => b.Authors)
+            .ToListAsync();
+
+        var dtos = books.Select(b => new BookDto
         {
-            Description = dto.Description,
-            Title = dto.Title,
-            Id = Guid.NewGuid().ToString(),
-            Priority = dto.Priority,
-        };
+            Id = b.Id,
+            Title = b.Title,
+            Pages = b.Pages,
+            Genre = b.Genre?.Name,
+            Author = b.Authors?.Select(a => a.Name).ToList()
+        }).ToList();
 
-        await dbContext.Libraries.AddAsync(myLibrary);
-        await dbContext.SaveChangesAsync();
-
-        return myLibrary;
+        return dtos;
     }
 
-    public async Task<ActionResult<List<Library>>> GetAllLibraries()
+    public async Task SeedBooks()
     {
-        var libraries = await dbContext.Libraries.ToListAsync();
-        return libraries;
-    }
+        if (!await _context.Books.AnyAsync())
+        {
+            var genre = new Genre
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Fantasy"
+            };
 
-    public async Task<ActionResult<Library>> ToggleLibrary(Library library)
-    {
-        var currentObject = await dbContext.Libraries
-                                .FirstOrDefaultAsync(l => l.Id == library.Id)
-                            ?? throw new ValidationException("Could not be found");
-        
-        dbContext.Libraries.Update(currentObject);
-        await dbContext.SaveChangesAsync();
+            var author = new Author
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "John Doe"
+            };
 
-        return currentObject;
+            _context.Genres.Add(genre);
+            _context.Authors.Add(author);
+
+            var book = new Book
+            {
+                Id = Guid.NewGuid().ToString(),
+                Title = "Debug Book 1",
+                Pages = 100,
+                Genre = genre,
+                Authors = new List<Author> { author }
+            };
+
+            _context.Books.Add(book);
+            await _context.SaveChangesAsync();
+        }
     }
 }

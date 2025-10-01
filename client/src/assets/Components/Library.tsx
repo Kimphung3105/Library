@@ -1,56 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./books.css";
+import { type BookDto, LibraryClient } from "../../generated-client";
+
+const libraryClient = new LibraryClient("http://localhost:5273/api");
 
 const Library: React.FC = () => {
+    const [books, setBooks] = useState<BookDto[]>([]);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        async function fetchBooks() {
+            try {
+                const data = await libraryClient.getBooks();
+                console.log("Fetched books:", data);
+                setBooks(data || []);
+            } catch (error) {
+                console.error("Error fetching books:", error);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        fetchBooks();
+    }, []);
+
+    if (loading) {
+        return <p>Loading books...</p>;
+    }
+
+    if (books.length === 0) {
+        return <p>No books found in the library.</p>;
+    }
+
     return (
         <main>
             <section className="library">
                 <div className="container">
-                    <h2 className="library-title">Library</h2>
-
-                    <div className="search-box">
-                        <input type="text" placeholder="Search Book..." />
-                        <button className="search-btn">
-                            <img src="./images/search_icon.svg" alt="search" />
-                        </button>
-                    </div>
-
+                    <h2 className="library-title">Books</h2>
                     <ul className="library-list">
-                        <li className="library-item">
-                            <div className="book">
-                                <div className="book-image">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNHV0HnZFjnPVeDJnh_jxfSaaxOJaazyc6Kw&s"
-                                        alt="Fight Oligarchy"
-                                    />
+                        {books.map((book) => (
+                            <li key={book.id} className="library-item">
+                                <div className="book">
+                                    <div className="book-image">
+                                        <img
+                                            src="https://via.placeholder.com/100"
+                                            alt={book.title}
+                                        />
+                                    </div>
+                                    <div className="book-info">
+                                        <h3 className="book-title">{book.title}</h3>
+                                        <p className="book-pages">Pages: {book.pages}</p>
+                                    </div>
                                 </div>
-
-                                <div className="book-info">
-                                    <h3 className="book-title">Fight Oligarchy</h3>
-                                    <p className="book-author">Author: Bernie Sanders</p>
-                                    <strong>Pages: 300</strong>
-                                </div>
-                            </div>
-                        </li>
-
-                        <li className="library-item">
-                            <div className="book">
-                                <div className="book-image">
-                                    <img
-                                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNHV0HnZFjnPVeDJnh_jxfSaaxOJaazyc6Kw&s"
-                                        alt="You've Reached Sam"
-                                    />
-                                </div>
-
-                                <div className="book-info">
-                                    <h3 className="book-title">You've Reached Sam</h3>
-                                    <p className="book-author">Author: Bernie Sanders</p>
-                                    <strong>Pages: 200</strong>
-                                </div>
-                            </div>
-                        </li>
-
-                        </ul>
+                            </li>
+                        ))}
+                    </ul>
                 </div>
             </section>
         </main>

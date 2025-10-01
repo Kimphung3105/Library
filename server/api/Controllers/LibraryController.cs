@@ -1,31 +1,31 @@
-﻿using api.Services;
-using efscaffold.Entities;
+﻿using api.Dtos;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
-public class LibraryController(ILibraryService libraryService) : ControllerBase
+[Route("api/[controller]")]
+public class LibraryController : ControllerBase
 {
-    [Route(nameof(GetAllLibraries))]
-    [HttpGet]
-    public async Task<ActionResult<List<Library>>> GetAllLibraries()
+    private readonly ILibraryService _service;
+
+    public LibraryController(ILibraryService service)
     {
-        var libaries = await libraryService.GetAllLibraries();
-        return libaries;
-    }
-    [Route(nameof(CreateLibrary))]
-    [HttpPost]
-    public async Task<ActionResult<Library>> CreateLibrary([FromBody]CreateLibraryDto dto)
-    {
-        var result = await libraryService.CreateLibrary(dto);
-        return result;
+        _service = service;
     }
 
-    [Route(nameof(ToggleDone))]
-    [HttpPut]
-    public async Task<ActionResult<Library>> ToggleDone([FromBody] Library t)
+    [HttpGet("GetBooks")]
+    public async Task<ActionResult<List<BookDto>>> GetBooks()
     {
-        var result = await libraryService.ToggleLibrary(t);
-        return result;
+        var books = await _service.GetAllBooks();
+
+        var dtos = books.Select(b => new BookDto
+        {
+            Id = b.Id,
+            Title = b.Title,
+            Pages = b.Pages,
+            Genre = b.Genre,                      
+            Author = b.Author                      
+        }).ToList();
+
+        return Ok(dtos);
     }
 }
-
