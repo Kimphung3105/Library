@@ -1,6 +1,6 @@
 using api;
+using api.Services;
 using Dataaccess;
-using efscaffold.Entities;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -30,8 +30,6 @@ using (var scope = app.Services.CreateScope())
     var db = scope.ServiceProvider.GetRequiredService<MyDbContext>();
     if (!await db.Books.AnyAsync())
     {
-        db.Books.Add(new Book { Id = Guid.NewGuid().ToString(), Title = "Debug Book 1", Pages = 100 });
-        db.Books.Add(new Book { Id = Guid.NewGuid().ToString(), Title = "Debug Book 2", Pages = 200 });
         await db.SaveChangesAsync();
         Console.WriteLine("Debug books seeded.");
     }
@@ -40,7 +38,8 @@ using (var scope = app.Services.CreateScope())
     Console.WriteLine($"Books fetched from DB: {booksAfterSeed.Count}");
     foreach (var b in booksAfterSeed)
     {
-        Console.WriteLine($"Book: {b.Title}, Pages: {b.Pages}");
+        Console.WriteLine("Book: " + b.Title + ", Pages: " + b.Pages);
+
     }
 
     app.UseCors(config => config.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());

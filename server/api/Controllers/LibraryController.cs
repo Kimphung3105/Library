@@ -22,8 +22,8 @@ public class LibraryController : ControllerBase
             Id = b.Id,
             Title = b.Title,
             Pages = b.Pages,
-            Genre = b.Genre,                      
-            Author = b.Author                      
+            Genre = b.Genre,
+            Author = b.Author
         }).ToList();
 
         return Ok(dtos);

@@ -36,6 +36,15 @@ const Library: React.FC = () => {
         <main>
             <section className="library">
                 <div className="container">
+                    <h2 className="library-title">Library</h2>
+
+                    <div className="search-box">
+                        <input type="text" placeholder="Search Book..." />
+                        <button className="search-btn">
+                            <img src="./images/search_icon.svg" alt="search" />
+                        </button>
+                    </div>
+
                     <h2 className="library-title">Books</h2>
                     <ul className="library-list">
                         {books.map((book) => (
@@ -43,13 +52,16 @@ const Library: React.FC = () => {
                                 <div className="book">
                                     <div className="book-image">
                                         <img
-                                            src="https://via.placeholder.com/100"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNHV0HnZFjnPVeDJnh_jxfSaaxOJaazyc6Kw&s"
                                             alt={book.title}
                                         />
                                     </div>
                                     <div className="book-info">
                                         <h3 className="book-title">{book.title}</h3>
-                                        <p className="book-pages">Pages: {book.pages}</p>
+                                        <p className="book-author">
+                                            Author: {book.authorsIds?.join(", ")}
+                                        </p>
+                                        <strong>Pages: {book.pages}</strong>
                                     </div>
                                 </div>
                             </li>

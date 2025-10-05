@@ -16,13 +16,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="obj\.env" />
+      <Content Include="obj\.env" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Dataaccess">
-      <HintPath>..\Dataaccess\bin\Debug\net9.0\Dataaccess.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+    <ItemGroup>
+        <Reference Include="Dataaccess">
+            <HintPath>..\Dataaccess\bin\Debug\net9.0\Dataaccess.dll</HintPath>
+        </Reference>
+    </ItemGroup>
 
 </Project>

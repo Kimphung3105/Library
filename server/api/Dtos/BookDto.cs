@@ -6,6 +6,6 @@
         public string Title { get; set; }
         public int Pages { get; set; }
         public string? Genre { get; set; }
-       public object Author { get; set; }
+        public object Author { get; set; }
     }
 }

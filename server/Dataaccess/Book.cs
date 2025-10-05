@@ -1,11 +1,13 @@
-﻿public class Book
+﻿using efscaffold.Entities;
+
+public class Book
 {
-    public string Id { get; set; }
-    public string Title { get; set; }
+    public string Id { get; set; } = null!;
+    public string Title { get; set; } = null!;
     public int Pages { get; set; }
     public DateTime? CreatedAt { get; set; }
-    public string? Genreid { get; set; }
 
-    Genre = b.Genre != null ? b.Genre.Name : null,
-    Authors = b.Authors != null ? b.Authors.Select(a => a.Name).ToList() : new List<string>()
+    public string? Genreid { get; set; }
+    public virtual Genre? Genre { get; set; }  
+    public virtual ICollection<Author> Authors { get; set; } = new List<Author>();
 }
